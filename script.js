@@ -28,3 +28,20 @@ console.log(error);
 }
 
 carregarDados();
+
+const avisosContainer =
+document.getElementById("avisos-container");
+
+avisosContainer.innerHTML = "";
+
+data.avisos.forEach(aviso => {
+
+  avisosContainer.innerHTML += `
+    <div class="card">
+      <strong>${aviso.titulo}</strong>
+      <br>
+      ${aviso.data}
+    </div>
+  `;
+
+});
