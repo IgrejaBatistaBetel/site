@@ -1,52 +1,66 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbzYpL9ixNvK2WD_g34ob3F9P9TBSUTPQaEDxZC-0_rn78xi-sRFRcO9mwRjC9PX0Jp7lg/exec";
 
-async function carregarDados(){
+async function carregarDados() {
 
-try{
+  try {
 
-const response =
-await fetch(API_URL);
+    const response = await fetch(API_URL);
+    const data = await response.json();
 
-const data =
-await response.json();
+    console.log("Dados recebidos:", data);
 
-console.log(data);
+    // Estatísticas
 
-document.getElementById("membros").innerText =
-data.estatisticas.membros;
+    document.getElementById("membros").innerText =
+      data.estatisticas.membros || 0;
 
-document.getElementById("congregados").innerText =
-data.estatisticas.congregados;
+    document.getElementById("congregados").innerText =
+      data.estatisticas.congregados || 0;
 
-document.getElementById("batizados").innerText =
-data.estatisticas.batizados;
+    document.getElementById("batizados").innerText =
+      data.estatisticas.batizados || 0;
 
-/* AVISOS */
+    // Avisos
 
-const avisosContainer =
-document.getElementById("avisos-container");
+    const avisosContainer =
+      document.getElementById("avisos-container");
 
-avisosContainer.innerHTML = "";
+    if (avisosContainer) {
 
-data.avisos.forEach(aviso => {
+      avisosContainer.innerHTML = "";
 
-avisosContainer.innerHTML += `
-<div class="card">
-<strong>${aviso.titulo}</strong>
-<br>
-${aviso.data}
-</div>
-`;
+      if (data.avisos && data.avisos.length > 0) {
 
-});
+        data.avisos.forEach(aviso => {
 
-}catch(error){
+          avisosContainer.innerHTML += `
+            <div class="card">
+              <strong>${aviso.titulo}</strong>
+              <br>
+              ${new Date(aviso.data).toLocaleString("pt-BR")}
+            </div>
+          `;
 
-console.error(error);
+        });
 
-}
+      } else {
+
+        avisosContainer.innerHTML = `
+          <div class="card">
+            Nenhum aviso disponível.
+          </div>
+        `;
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.error("Erro ao carregar dados:", error);
+
+  }
 
 }
 
 carregarDados();
-});
