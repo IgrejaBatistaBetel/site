@@ -7,57 +7,40 @@ async function carregarDados() {
     const response = await fetch(API_URL);
     const data = await response.json();
 
-    console.log("Dados recebidos:", data);
-
-    // Estatísticas
+    console.log(data);
 
     document.getElementById("membros").innerText =
-      data.estatisticas.membros || 0;
+      data.estatisticas.membros;
 
     document.getElementById("congregados").innerText =
-      data.estatisticas.congregados || 0;
+      data.estatisticas.congregados;
 
     document.getElementById("batizados").innerText =
-      data.estatisticas.batizados || 0;
-
-    // Avisos
+      data.estatisticas.batizados;
 
     const avisosContainer =
       document.getElementById("avisos-container");
 
-    if (avisosContainer) {
+    if (avisosContainer && data.avisos) {
 
       avisosContainer.innerHTML = "";
 
-      if (data.avisos && data.avisos.length > 0) {
+      data.avisos.forEach(aviso => {
 
-        data.avisos.forEach(aviso => {
-
-          avisosContainer.innerHTML += `
-            <div class="card">
-              <strong>${aviso.titulo}</strong>
-              <br>
-              ${new Date(aviso.data).toLocaleString("pt-BR")}
-            </div>
-          `;
-
-        });
-
-      } else {
-
-        avisosContainer.innerHTML = `
+        avisosContainer.innerHTML += `
           <div class="card">
-            Nenhum aviso disponível.
+            <strong>${aviso.titulo}</strong><br>
+            ${new Date(aviso.data).toLocaleDateString("pt-BR")}
           </div>
         `;
 
-      }
+      });
 
     }
 
   } catch (error) {
 
-    console.error("Erro ao carregar dados:", error);
+    console.error(error);
 
   }
 
