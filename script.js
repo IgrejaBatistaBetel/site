@@ -10,6 +10,8 @@ await fetch(API_URL);
 const data =
 await response.json();
 
+console.log(data);
+
 document.getElementById("membros").innerText =
 data.estatisticas.membros;
 
