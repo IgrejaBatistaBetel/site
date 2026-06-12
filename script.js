@@ -19,9 +19,6 @@ data.estatisticas.congregados;
 document.getElementById("batizados").innerText =
 data.estatisticas.batizados;
 
-document.getElementById("visitantes").innerText =
-data.estatisticas.visitantes;
-
 }catch(error){
 
 console.log(error);
