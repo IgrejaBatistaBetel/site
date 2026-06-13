@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
 <head>
@@ -11,13 +12,15 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<link rel="icon" href="favicon.png">
+<link rel="icon" href="/site/favicon.png">
 
 <!-- PWA -->
-<link rel="manifest" href="manifest.json">
+
+<link rel="manifest" href="/site/manifest.json">
 <meta name="theme-color" content="#D4AF37">
 
 <!-- OneSignal -->
+
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 
 <script>
@@ -42,7 +45,7 @@ OneSignalDeferred.push(async function(OneSignal) {
 <header class="navbar">
 
 <div class="logo-container">
-<img src="logo-dourada.png" alt="BBNJ Logo">
+<img src="/site/logo-dourada.png" alt="BBNJ Logo">
 <span>B.B.N.J.</span>
 </div>
 
@@ -58,7 +61,7 @@ OneSignalDeferred.push(async function(OneSignal) {
 
 <section class="hero" id="inicio">
 
-<img class="hero-logo" src="logo-dourada.png" alt="Logo BBNJ">
+<img class="hero-logo" src="/site/logo-dourada.png" alt="Logo BBNJ">
 
 <h1>Igreja Batista<br>Betel Nova Jerusalém</h1>
 
@@ -73,19 +76,16 @@ sendo Jesus Cristo a principal pedra angular.
 📢 Avisos
 </a>
 
+<button
+id="installBtn"
+class="install-app">
+📱 Instalar App </button>
+
 <a
 href="https://maps.google.com/?q=R.+Monsenhor+Sabino,+Caiçara,+Cruz+-+CE"
 target="_blank"
 class="btn-secondary">
-📍 Como Chegar
-</a>
-
-<button
-id="installBtn"
-class="btn-secondary"
-style="display:none;">
-📱 Instalar App
-</button>
+📍 Como Chegar </a>
 
 </div>
 
@@ -161,7 +161,7 @@ Enviar Pedido
 
 <footer id="contato">
 
-<img src="logo-dourada.png" alt="Logo BBNJ">
+<img src="/site/logo-dourada.png" alt="Logo BBNJ">
 
 <h3>BBNJ</h3>
 
@@ -176,16 +176,35 @@ Caiçara, Cruz - CE
 
 </footer>
 
-<!-- Service Worker -->
 <script>
+
 if ("serviceWorker" in navigator) {
 
-  navigator.serviceWorker
-    .register("/site/sw.js")
-    .then(() => console.log("Service Worker registrado"))
-    .catch(err => console.error("Erro SW:", err));
+  window.addEventListener("load", () => {
+
+    navigator.serviceWorker
+      .register("/site/sw.js")
+      .then(reg => {
+
+        console.log(
+          "Service Worker registrado",
+          reg
+        );
+
+      })
+      .catch(err => {
+
+        console.error(
+          "Erro SW:",
+          err
+        );
+
+      });
+
+  });
 
 }
+
 </script>
 
 <script src="script.js"></script>
