@@ -12,6 +12,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <link rel="icon" href="favicon.png">
+
+<!-- =========================
+PWA CONFIG
+========================= -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#D4AF37">
+
+<!-- =========================
+ONESIGNAL (NOTIFICAÇÕES)
+========================= -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "SEU_APP_ID_AQUI"
+    });
+  });
+</script>
+
 </head>
 
 <body>
@@ -86,17 +107,15 @@ class="btn-secondary">
 
 <h2>📢 Avisos</h2>
 
-<div id="avisos-container">
-
-</div>
+<div id="avisos-container"></div>
 
 </section>
 
 <section id="agenda" class="section">
 
-  <h2>📅 Agenda da Igreja</h2>
+<h2>📅 Agenda da Igreja</h2>
 
-  <div id="agenda-container"></div>
+<div id="agenda-container"></div>
 
 </section>
 
@@ -104,8 +123,7 @@ class="btn-secondary">
 
 <h2>📖 Versículo da Semana</h2>
 
-<p id="versiculo">
-</p>
+<p id="versiculo"></p>
 
 </section>
 
@@ -124,8 +142,7 @@ required>
 <textarea
 id="pedido"
 placeholder="Digite seu pedido de oração"
-required>
-</textarea>
+required></textarea>
 
 <button type="submit">
 Enviar Pedido
@@ -152,8 +169,16 @@ Caiçara, Cruz - CE
 
 </footer>
 
+<!-- =========================
+SERVICE WORKER (PWA)
+========================= -->
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js");
+}
+</script>
+
 <script src="script.js"></script>
 
 </body>
-
 </html>
