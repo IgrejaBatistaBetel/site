@@ -406,6 +406,186 @@ margin-bottom:20px;
 }
 
 /* =========================
+   BOTÃO INSTALAR APP
+========================= */
+
+.install-app{
+
+background:var(--gold);
+color:black;
+
+border:none;
+
+padding:14px 28px;
+
+border-radius:50px;
+
+font-weight:700;
+
+font-family:inherit;
+
+cursor:pointer;
+
+transition:.25s ease;
+
+display:none;
+
+}
+
+.install-app:hover{
+
+transform:translateY(-3px);
+
+box-shadow:
+0 10px 25px rgba(212,175,55,.35);
+
+}
+
+/* =========================
+   VERSÍCULO DA SEMANA
+========================= */
+
+#versiculo{
+
+max-width:900px;
+
+margin:auto;
+
+line-height:1.8;
+
+font-size:1.15rem;
+
+background:
+rgba(255,255,255,.06);
+
+padding:25px;
+
+border-radius:20px;
+
+backdrop-filter:blur(10px);
+
+border-left:
+4px solid var(--gold);
+
+transition:.6s ease;
+
+}
+
+/* =========================
+   FORM ORAÇÃO
+========================= */
+
+#oracaoForm{
+
+background:
+rgba(255,255,255,.05);
+
+padding:30px;
+
+border-radius:25px;
+
+backdrop-filter:blur(15px);
+
+}
+
+#oracaoForm input,
+#oracaoForm textarea{
+
+background:
+rgba(255,255,255,.1);
+
+color:white;
+
+outline:none;
+
+transition:.25s ease;
+
+}
+
+#oracaoForm input::placeholder,
+#oracaoForm textarea::placeholder{
+
+color:
+rgba(255,255,255,.65);
+
+}
+
+#oracaoForm input:focus,
+#oracaoForm textarea:focus{
+
+box-shadow:
+0 0 0 2px var(--gold);
+
+background:
+rgba(255,255,255,.14);
+
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+width:10px;
+}
+
+::-webkit-scrollbar-track{
+
+background:
+rgba(255,255,255,.05);
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:var(--gold);
+
+border-radius:50px;
+
+}
+
+/* =========================
+   ANIMAÇÃO SUAVE NAS SEÇÕES
+========================= */
+
+.section,
+.verse,
+.stats{
+
+animation:
+fadeIn .8s ease;
+
+}
+
+/* =========================
+   LOGO INTERATIVA
+========================= */
+
+.hero-logo{
+
+transition:.3s ease;
+
+}
+
+.hero-logo:hover{
+
+transform:scale(1.05);
+
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer p{
+
+opacity:.9;
+
+line-height:1.7;
+
+}
+
+/* =========================
    RESPONSIVO
 ========================= */
 
