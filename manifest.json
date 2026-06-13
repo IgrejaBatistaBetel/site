@@ -1,18 +1,18 @@
 {
   "name": "Batista Betel",
   "short_name": "B.B.N.J",
-  "start_url": "/",
+  "start_url": "/site/",
   "display": "standalone",
   "background_color": "#102A43",
   "theme_color": "#D4AF37",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "/site/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "/site/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
