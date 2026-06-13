@@ -1,5 +1,9 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbzpcnCO3S3JUi-1ti8qYI-IzXCR8wVvJOeKNz1JGHPQntZu7l1skEAth4ZKcKA5gIXe/exec";
 
+
+// =========================
+// CARREGAR DADOS (GET)
+// =========================
 async function carregarDados() {
 
   try {
@@ -9,17 +13,11 @@ async function carregarDados() {
 
     console.log("DADOS API:", data);
 
-    // =========================
-    // ESTATÍSTICAS
-    // =========================
     atualizarTexto("membros", data.estatisticas?.membros);
     atualizarTexto("congregados", data.estatisticas?.congregados);
     atualizarTexto("batizados", data.estatisticas?.batizados);
 
 
-    // =========================
-    // AVISOS
-    // =========================
     renderLista("avisos-container", data.avisos, (aviso) => `
       <div class="card">
         <strong>${aviso.titulo}</strong><br>
@@ -28,9 +26,6 @@ async function carregarDados() {
     `);
 
 
-    // =========================
-    // AGENDA
-    // =========================
     renderLista("agenda-container", data.agenda, (item) => `
       <div class="card">
         <strong>${item.evento}</strong><br>
@@ -39,27 +34,18 @@ async function carregarDados() {
     `);
 
 
-    // =========================
-    // VERSÍCULO DA SEMANA
-    // =========================
     const versiculoElement = document.getElementById("versiculo");
 
     if (versiculoElement && data.versiculo) {
-
       versiculoElement.style.opacity = 0;
 
       setTimeout(() => {
         versiculoElement.innerText = data.versiculo;
-        versiculoElement.style.transition = "0.6s ease";
         versiculoElement.style.opacity = 1;
       }, 200);
-
     }
 
 
-    // =========================
-    // ORAÇÕES (NOVO!)
-    // =========================
     renderLista("oracoes-container", data.oracoes, (o) => `
       <div class="card">
         <strong>${o.nome}</strong><br>
@@ -74,7 +60,49 @@ async function carregarDados() {
 
 
 // =========================
-// FUNÇÃO: ATUALIZAR TEXTO
+// ENVIO DE ORAÇÃO (POST)
+// =========================
+const form = document.getElementById("oracaoForm");
+
+if (form) {
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const nome = document.getElementById("nome").value;
+    const pedido = document.getElementById("pedido").value;
+
+    try {
+
+      const response = await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          nome,
+          pedido
+        })
+      });
+
+      const result = await response.json();
+
+      if (result.status === "ok") {
+        alert("Pedido enviado 🙏");
+
+        form.reset();
+
+        carregarDados(); // atualiza lista na hora
+      }
+
+    } catch (error) {
+      console.error("Erro ao enviar oração:", error);
+      alert("Erro ao enviar pedido 😢");
+    }
+
+  });
+}
+
+
+// =========================
+// FUNÇÕES AUXILIARES
 // =========================
 function atualizarTexto(id, valor) {
   const el = document.getElementById(id);
@@ -82,9 +110,6 @@ function atualizarTexto(id, valor) {
 }
 
 
-// =========================
-// FUNÇÃO: RENDER LISTA COM ANIMAÇÃO
-// =========================
 function renderLista(containerId, lista, templateFn) {
 
   const container = document.getElementById(containerId);
@@ -110,9 +135,6 @@ function renderLista(containerId, lista, templateFn) {
 }
 
 
-// =========================
-// UTILITÁRIO DE DATA
-// =========================
 function formatarData(data) {
   if (!data) return "";
 
