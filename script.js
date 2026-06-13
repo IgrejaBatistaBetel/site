@@ -7,75 +7,91 @@ async function carregarDados() {
     const response = await fetch(API_URL + "?nocache=" + Date.now());
     const data = await response.json();
 
-    console.log(data);
+    console.log("DADOS API:", data);
 
     // =========================
     // ESTATÍSTICAS
     // =========================
-    document.getElementById("membros").innerText =
-      data.estatisticas?.membros ?? 0;
-
-    document.getElementById("congregados").innerText =
-      data.estatisticas?.congregados ?? 0;
-
-    document.getElementById("batizados").innerText =
-      data.estatisticas?.batizados ?? 0;
+    atualizarTexto("membros", data.estatisticas?.membros);
+    atualizarTexto("congregados", data.estatisticas?.congregados);
+    atualizarTexto("batizados", data.estatisticas?.batizados);
 
 
     // =========================
-    // AVISOS (COM ANIMAÇÃO EM CASCATA)
+    // AVISOS
     // =========================
-    const avisosContainer = document.getElementById("avisos-container");
-
-    if (avisosContainer && Array.isArray(data.avisos)) {
-
-      avisosContainer.innerHTML = "";
-
-      data.avisos.forEach((aviso, index) => {
-
-        const card = document.createElement("div");
-        card.className = "card";
-        card.style.animationDelay = (index * 0.08) + "s";
-
-        card.innerHTML = `
-          <strong>${aviso.titulo}</strong><br>
-          ${formatarData(aviso.data)}
-        `;
-
-        avisosContainer.appendChild(card);
-
-      });
-    }
+    renderLista("avisos-container", data.avisos, (aviso) => `
+      <div class="card">
+        <strong>${aviso.titulo}</strong><br>
+        ${formatarData(aviso.data)}
+      </div>
+    `);
 
 
     // =========================
-    // AGENDA (COM ANIMAÇÃO EM CASCATA)
+    // AGENDA
     // =========================
-    const agendaContainer = document.getElementById("agenda-container");
+    renderLista("agenda-container", data.agenda, (item) => `
+      <div class="card">
+        <strong>${item.evento}</strong><br>
+        ${item.dia} • ${item.hora}
+      </div>
+    `);
 
-    if (agendaContainer && Array.isArray(data.agenda)) {
 
-      agendaContainer.innerHTML = "";
+    // =========================
+    // VERSÍCULO DA SEMANA
+    // =========================
+    const versiculoElement = document.getElementById("versiculo");
 
-      data.agenda.forEach((item, index) => {
+    if (versiculoElement && data.versiculo) {
 
-        const card = document.createElement("div");
-        card.className = "card";
-        card.style.animationDelay = (index * 0.08) + "s";
+      versiculoElement.style.opacity = 0;
 
-        card.innerHTML = `
-          <strong>${item.evento}</strong><br>
-          ${item.dia} • ${item.hora}
-        `;
+      setTimeout(() => {
+        versiculoElement.innerText = data.versiculo;
+        versiculoElement.style.transition = "0.6s ease";
+        versiculoElement.style.opacity = 1;
+      }, 200);
 
-        agendaContainer.appendChild(card);
-
-      });
     }
 
   } catch (error) {
     console.error("Erro ao carregar dados:", error);
   }
+}
+
+
+// =========================
+// FUNÇÃO: ATUALIZAR TEXTO
+// =========================
+function atualizarTexto(id, valor) {
+  const el = document.getElementById(id);
+  if (el) el.innerText = valor ?? 0;
+}
+
+
+// =========================
+// FUNÇÃO: RENDER LISTA COM ANIMAÇÃO
+// =========================
+function renderLista(containerId, lista, templateFn) {
+
+  const container = document.getElementById(containerId);
+
+  if (!container || !Array.isArray(lista)) return;
+
+  container.innerHTML = "";
+
+  lista.forEach((item, index) => {
+
+    const el = document.createElement("div");
+    el.innerHTML = templateFn(item);
+    el.firstElementChild.style.animationDelay = (index * 0.08) + "s";
+
+    container.appendChild(el.firstElementChild);
+
+  });
+
 }
 
 
