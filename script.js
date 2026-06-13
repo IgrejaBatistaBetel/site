@@ -56,6 +56,17 @@ async function carregarDados() {
 
     }
 
+
+    // =========================
+    // ORAÇÕES (NOVO!)
+    // =========================
+    renderLista("oracoes-container", data.oracoes, (o) => `
+      <div class="card">
+        <strong>${o.nome}</strong><br>
+        ${o.pedido}
+      </div>
+    `);
+
   } catch (error) {
     console.error("Erro ao carregar dados:", error);
   }
@@ -84,11 +95,15 @@ function renderLista(containerId, lista, templateFn) {
 
   lista.forEach((item, index) => {
 
-    const el = document.createElement("div");
-    el.innerHTML = templateFn(item);
-    el.firstElementChild.style.animationDelay = (index * 0.08) + "s";
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = templateFn(item);
 
-    container.appendChild(el.firstElementChild);
+    const element = wrapper.firstElementChild;
+
+    if (element) {
+      element.style.animationDelay = (index * 0.08) + "s";
+      container.appendChild(element);
+    }
 
   });
 
