@@ -4,7 +4,7 @@ async function carregarDados() {
 
   try {
 
-    const response = await fetch(API_URL);
+    const response = await fetch(API_URL + "?nocache=" + Date.now());
     const data = await response.json();
 
     console.log(data);
@@ -23,46 +23,54 @@ async function carregarDados() {
 
 
     // =========================
-    // AVISOS
+    // AVISOS (COM ANIMAÇÃO EM CASCATA)
     // =========================
     const avisosContainer = document.getElementById("avisos-container");
 
     if (avisosContainer && Array.isArray(data.avisos)) {
 
-      let htmlAvisos = "";
+      avisosContainer.innerHTML = "";
 
-      data.avisos.forEach(aviso => {
-        htmlAvisos += `
-          <div class="card">
-            <strong>${aviso.titulo}</strong><br>
-            ${formatarData(aviso.data)}
-          </div>
+      data.avisos.forEach((aviso, index) => {
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.animationDelay = (index * 0.08) + "s";
+
+        card.innerHTML = `
+          <strong>${aviso.titulo}</strong><br>
+          ${formatarData(aviso.data)}
         `;
-      });
 
-      avisosContainer.innerHTML = htmlAvisos;
+        avisosContainer.appendChild(card);
+
+      });
     }
 
 
     // =========================
-    // AGENDA
+    // AGENDA (COM ANIMAÇÃO EM CASCATA)
     // =========================
     const agendaContainer = document.getElementById("agenda-container");
 
     if (agendaContainer && Array.isArray(data.agenda)) {
 
-      let htmlAgenda = "";
+      agendaContainer.innerHTML = "";
 
-      data.agenda.forEach(item => {
-        htmlAgenda += `
-          <div class="card">
-            <strong>${item.evento}</strong><br>
-            ${item.dia} • ${item.hora}
-          </div>
+      data.agenda.forEach((item, index) => {
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.animationDelay = (index * 0.08) + "s";
+
+        card.innerHTML = `
+          <strong>${item.evento}</strong><br>
+          ${item.dia} • ${item.hora}
         `;
-      });
 
-      agendaContainer.innerHTML = htmlAgenda;
+        agendaContainer.appendChild(card);
+
+      });
     }
 
   } catch (error) {
@@ -79,7 +87,7 @@ function formatarData(data) {
 
   const d = new Date(data);
 
-  if (isNaN(d.getTime())) return data; // fallback se vier quebrado
+  if (isNaN(d.getTime())) return data;
 
   return d.toLocaleDateString("pt-BR");
 }
